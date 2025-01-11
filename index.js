@@ -53,7 +53,50 @@ app.get("/api/v1/posts", async (req, res) => {
   }
 });
 //!Update Post
-//!get Post
+app.put("/api/v1/posts/:postId", async (req, res) => {
+  try {
+    //get the post id from params
+    const postId = req.params;
+    //find the post
+    const postFound = await Post.findById(postId);
+    if (!postFound) {
+      throw new Error("Post not found");
+    }
+    //update the post
+    const postUpdated = await Post.findByIdAndUpdate(
+      postId,
+      { title: req.body.title },
+      { description: req.body.description },
+      {
+        new: true,
+      }
+    );
+    res.json({
+      status: "success",
+      message: "Post Updated Successfully",
+      postUpdated,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
+//!get Post by id
+app.get("/api/v1/posts/:postId", async (req, res) => {
+  try {
+    //get the post id from params
+    const postId = req.params;
+    //find the post
+    const postFound = await Post.findById(postId);
+
+    res.json({
+      status: "success",
+      message: "Post Fetched Successfully",
+      postFound,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
 //!Delete Post
 
 //!Start
