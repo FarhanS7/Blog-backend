@@ -4,14 +4,10 @@ const Post = require("../../models/Post/Post");
 const postController = {
   //!Create post
   createPost: asyncHandler(async (req, res) => {
-    //get the payload 
-    const {   description } = req.body;
-    //find the post by title
-    const postFound = await Post.findOne({ title });
-    if (postFound) {
-      throw new Error("Post already exists");
-    }
-    const postCreated = await Post.create({  description });
+    console.log(req.file);
+    //get the payload
+    const { description } = req.body;
+    const postCreated = await Post.create({ description });
     res.json({
       status: "success",
       message: "Post created successfully",
@@ -51,7 +47,7 @@ const postController = {
       message: "Post deleted successfully",
     });
   }),
-  //! Update post
+  //!Update post
   update: asyncHandler(async (req, res) => {
     //get the post id from params
     const postId = req.params.postId;
